@@ -1,0 +1,95 @@
+﻿@model Saturn_BugTracker.Models.LoginViewModel
+@using Saturn_BugTracker.Models
+@{ 
+    Layout = "~/Views/Shared/_BlankLayout.cshtml";
+
+    List<SelectListItem> guestLogins = new List<SelectListItem>();
+    guestLogins.Add(new SelectListItem
+    {
+        Text = "Admin",
+        Value = "admin@bugtracker.com"
+    });
+
+    guestLogins.Add(new SelectListItem
+    {
+        Text = "Project Manager",
+        Value = "project.manager@bugtracker.com"
+    });
+
+    guestLogins.Add(new SelectListItem
+    {
+        Text = "Developer",
+        Value = "developer@bugtracker.com"
+    });
+
+    guestLogins.Add(new SelectListItem
+    {
+        Text = "Submitter",
+        Value = "submitter@bugtracker.com"
+    });
+}
+
+<div class="app-login-box">
+    <div class="app-login-box-user"></div>
+    <div class="app-login-box-title">
+        <div class="title">Already a member?</div>
+        <div class="subtitle">Sign in to your account</div>
+    </div>
+    <div class="app-login-box-container">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <input type="text" class="form-control" name="email" placeholder="Email Address">
+            </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+
+                            <div class="row">
+                                <div class="col-md-6 col-xs-6">
+                                    <div class="app-checkbox">
+                                        <label><input type="checkbox" name="app-checkbox-1" value="0"> Remember me</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xs-6">
+                                    <input class="btn btn-success btn-block" value="Sign In" type="submit" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-block">Register</a>
+        }
+    </div>
+    <div class="app-login-box-or">
+        <div class="or">OR</div>
+    </div>
+
+
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Password, htmlAttributes: new { Value = "Password-1" })
+
+        <h3 style="text-align:center">Guest Login</h3>
+
+                    @Html.DropDownListFor(m => m.Email, guestLogins, new { @class = "form-control", style = "width:80%; margin-left:10%;" })
+                    @*@Html.ListBox("GuestLogins", (SelectList) ViewData["GuestLogins"]);*@
+
+                    <div class="form-group" style="padding-bottom:20px;">
+                        <div style="text-align:center; margin-top:10px;">
+                            <input class="btn btn-success btn" value="Guest Login" type="submit" />
+                        </div>
+                    </div>
+    }
+    @*<div class="app-login-box-container">
+        <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-block">Register</a>
+        @*<button class="btn btn-facebook btn-block">Connect With Facebook</button>
+        <button class="btn btn-twitter btn-block">Connect With Twitter</button>*@
+    @*</div>*@
+    @*<div class="app-login-box-footer">
+            &copy; Boooya 2017. All rights reserved.
+        </div>*@
+</div>

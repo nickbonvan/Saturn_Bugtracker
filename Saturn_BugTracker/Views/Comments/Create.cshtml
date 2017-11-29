@@ -1,0 +1,89 @@
+﻿@model Saturn_BugTracker.Models.Comment
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li><a href="@Url.Action("Details", "Projects", new { id = ViewBag.ProjectId })">Project</a></li>
+        <li><a href="@Url.Action("Details", "Tickets", new { id = ViewBag.TicketId })">Ticket</a></li>
+        <li class="active">Create Comment</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<!-- START CONTAINER -->
+<div class="container">
+    <!-- START ROW -->
+    <div class="row">
+        <!-- START CONTAINER-->
+        <div class="col-md-8 col-md-offset-2">
+            <!-- START BLOCK -->
+            <div class="block">
+                <!-- START APP HEADING-->
+                <div class="app-heading app-heading-small">
+                    <h2 style="text-align:center">Create Comment</h2>
+                </div>
+                <!-- END APP HEADING -->
+                <!-- START BLOCK CONTENT-->
+                <div class="block-content">
+                    @using (Html.BeginForm("Create", "Comments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            @Html.HiddenFor(model => model.TicketId)
+                            <input type="hidden" value="@ViewBag.ProjectId" name="ProjectId" />
+                            <input type="hidden" value="@ViewBag.AuthorId" name="AuthorId" />
+
+                            <div class="form-group">
+                                <div class="control-label col-md-2">
+                                    Comment
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Body, new { style = "width: 100%; height: 200px; overflow-x:hidden;", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input name="files" type="file" accept=".gif, .jpg., .png, .doc, .docx, .pdf, .odf, .bmp, .xls, .txt" multiple />
+                                    @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div style="text-align:center">
+                                    <input type="submit" value="Create" class="btn btn-success" />
+                                    @Html.ActionLink("Return", "Details", "Tickets", new { id = ViewBag.TicketId }, new { @class = "btn btn-primary"})
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- END BLOCK CONTENT -->
+            </div>
+            <!-- END BLOCK-->
+        </div>
+        <!-- END CONTAINER -->
+    </div>
+    <!-- END ROW -->
+</div>
+<!--END CONTAINER-->

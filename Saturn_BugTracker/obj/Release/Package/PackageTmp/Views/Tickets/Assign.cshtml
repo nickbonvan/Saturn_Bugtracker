@@ -1,0 +1,93 @@
+﻿@model Saturn_BugTracker.Models.TicketAssignViewModel
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li><a href="@Url.Action("Details", "Projects", new { id = Model.Ticket.ProjectId })">Project</a></li>
+        <li><a href="@Url.Action("Details", "Tickets", new { id = Model.Ticket.Id })">Ticket</a></li>
+        <li class="active">Assign Ticket</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<!-- START CONTAINER -->
+<div class="container">
+    <!-- START ROW -->
+    <div class="row">
+        <!-- START COL-->
+        <div class="col-md-6 col-md-offset-3">
+            <!-- START BLOCK -->
+            <div class="block">
+                <!-- START BLOCK CONTENT -->
+                <!-- START APP HEADING -->
+                <div class="app-heading app-heading-small">
+                    <h1 style="text-align:center">Assign Ticket @Model.Ticket.Id</h1>
+                    <h2 style="text-align:center">Project: @Model.Ticket.Project.Title</h2>
+                </div>
+                <!-- END APP HEADING -->
+                <div class="block-content">
+                    @using (Html.BeginForm("Assign", "Tickets", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal", enctype = "Multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @*@Html.HiddenFor(model => model.Ticket.Id);*@
+                        <input hidden value="@Model.Ticket.Id" name="ticketId" />
+
+                        if (Model.Developers.Count > 0)
+                        {
+                        <div class="col-md-2">Developers</div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @Html.DropDownList("userId", Model.DevelopersSelectList, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div style="text-align:center;">
+                                    <input type="submit" value="Assign" class="btn btn-success" />
+                                    <a href="@Url.Action("Details", "Projects", new { id = Model.Ticket.Project.Id })" class="btn btn-primary">Return</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <div class="col-md-12" style="text-align:center">
+                                    <h3 class="text-danger">There are no developers assigned to this project</h3>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div style="text-align:center">
+                                    <a href="@Url.Action("Details", "Projects", new { id = Model.Ticket.Project.Id })" class="btn btn-primary">Return</a>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <!-- END BLOCK CONTENT -->
+            </div>
+            <!-- END BLOCK -->
+        </div>
+        <!-- END COL-->
+    </div>
+    <!-- END ROW -->
+</div>
+<!-- END CONTAINER -->
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>

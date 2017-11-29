@@ -1,0 +1,72 @@
+﻿@model Saturn_BugTracker.Models.Project
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li><a href="@Url.Action("Details", "Projects", new { id = Model.Id })">Project</a></li>
+        <li class="active">Edit Project</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="block">
+                <div class="block-content">
+                    @using (Html.BeginForm("Edit", "Projects", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h1 style="text-align:center;">Edit Project</h1>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.Created)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Description, new { Style = "width: 100%; height:200px; overflow-x:hidden;", @class = "form-control" } )
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div style="text-align:center">
+                                    <input type="submit" value="Save" class="btn btn-success" />
+                                    @Html.ActionLink("Return", "Index", "Dashboard", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+﻿@model Saturn_BugTracker.Models.Comment
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li><a href="@Url.Action("Details", "Projects", new { id = Model.Ticket.ProjectId })">Project</a></li>
+        <li><a href="@Url.Action("Details", "Tickets", new { id = Model.TicketId })">Ticket</a></li>
+        <li class="active">Delete Comment</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<!-- START CONTAINER -->
+<div class="container">
+    <!-- START ROW -->
+    <div class="row">
+        <!-- START COL-->
+        <div class="col-md-8 col-md-offset-2">
+            <!-- START BLOCK -->
+            <div class="block">
+                <!-- START BLOCK CONTENT -->
+                <div class="block-content">
+                    <h2 style="text-align:center">Delete Comment</h2>
+                    <h3 style="text-align:center">Are you sure you want to delete this?</h3>
+                    
+                    <div>
+                        <table class="table-striped table-bordered table">
+                            <tr>
+                                <td>Author</td>
+                                <td>@Html.DisplayFor(model => model.Author.DisplayName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Ticket)</td>
+                                <td>@Html.DisplayFor(model => model.Ticket.Title)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Body)</td>
+                                <td>@Html.DisplayFor(model => model.Body)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Created)</td>
+                                <td>@Html.DisplayFor(model => model.Created.LocalDateTime)</td>
+                            </tr>
+                            <tr>
+                                @if (Model.Updated.GetValueOrDefault() != new DateTimeOffset())
+                                {
+                                    <td>@Html.DisplayNameFor(model => model.Updated)</td>
+                                    <td>@Html.DisplayFor(model => model.Updated.GetValueOrDefault().LocalDateTime)</td>
+                                }
+                            </tr>
+                        </table>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div style="text-align:center">
+                                <input type="submit" value="Delete" class="btn btn-danger" />
+                                @Html.ActionLink("Return", "Details", "Tickets", new { id = Model.TicketId }, new { @class = "btn btn-primary" })
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <!-- END BLOCK CONTENT -->
+            </div>
+            <!-- END BLOCK -->
+        </div>
+        <!-- END COL-->
+    </div>
+    <!-- END ROW -->
+</div>
+<!-- END CONTAINER -->

@@ -1,0 +1,9 @@
+You will add a new connection string to your Web.config file to connect to the Coder Foundry cloud server. You need to replace any dummy data with your namespace and run an "update-database" within your project to seed tables, roles, and data (just like with our local database).
+
+<connectionStrings>
+	...
+	<add name="DefaultConnection" connectionString="Data Source=coderfoundry.cloudapp.net, 55555; Initial Catalog=xxxxx-portfolio;User=xxxxx;Password=password;" providerName="System.Data.SqlClient" />
+	...
+</connectionStrings>
+
+* xxxxx = (firstname intitial + last name)

@@ -1,0 +1,70 @@
+﻿@model Saturn_BugTracker.Models.Project
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li><a href="@Url.Action("Details", "Projects", new { id = Model.Id })">Project</a></li>
+        <li class="active">Delete Project</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-offset-3">
+            <div class="block">
+                <div class="block-content">
+                    <h3>Are you sure you want to delete this project?</h3>
+                    <hr />
+                    <div>
+                        <p>
+                            @Html.DisplayNameFor(model => model.Title):
+                            @Html.DisplayFor(model => model.Title)
+                        </p>
+                        <p>
+                            @Html.DisplayNameFor(model => model.Created):
+                            @Html.DisplayFor(model => model.Created.LocalDateTime)
+                        </p>
+                        @if (Model.Updated.GetValueOrDefault().LocalDateTime != new DateTimeOffset().LocalDateTime)
+                        {
+                            <p>
+                                @Html.DisplayNameFor(model => model.Updated):
+                                @Html.DisplayFor(model => model.Updated.GetValueOrDefault().LocalDateTime)
+                            </p>
+                        }
+                        <p>
+                            @Html.DisplayNameFor(model => model.Description):
+                            @Html.DisplayFor(model => model.Description)
+                        </p>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-actions no-color" style="text-align:center;">
+                                <input type="submit" value="Delete" class="btn btn-danger" />
+                                @Html.ActionLink("Return", "Index", "Dashboard", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

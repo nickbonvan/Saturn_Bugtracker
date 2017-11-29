@@ -1,0 +1,349 @@
+﻿@model Saturn_BugTracker.Models.DashboardViewModel
+@using Saturn_BugTracker.Models
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li class="active">Dashboard</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<!-- START PAGE CONTAINER -->
+<div class="container">
+    <!-- START ROW -->
+    <div class="row">
+        <!-- START COLUMN -->
+        <div class="col-md-12">
+            <!-- START OUTER TABLE BLOCK-->
+            <div class="block block-condensed">
+                <!-- START HEADING -->
+                <div class="app-heading app-heading-small">
+                    <div class="title">
+                        <h5>Your Projects</h5>
+                    </div>
+                </div>
+                <!-- END HEADING -->
+
+                <!-- START INNER TABLE BLOCK -->
+
+                <div class="block-content">
+
+                    <table class="table table-striped table-bordered datatable-extended">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => Model.RelevantProjects.First().Title)</th>
+                                <th>@Html.DisplayNameFor(model => model.RelevantProjects.First().Created)</th>
+                                <th>@Html.DisplayNameFor(model => model.RelevantProjects.First().Updated)</th>
+                                <th>@Html.DisplayNameFor(model => model.RelevantProjects.First().Users)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center;">
+                                @foreach (var project in Model.RelevantProjects)
+                                {
+                                <tr>
+                                    <td>@Html.DisplayFor(model => project.Title)</td>
+                                    <td>@Html.DisplayFor(model => project.Created.LocalDateTime)</td>
+                                    @if (project.Updated.GetValueOrDefault() != new DateTimeOffset())
+                                    {
+                                        <td>@Html.DisplayFor(model => project.Updated.GetValueOrDefault().LocalDateTime)</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>@Html.DisplayFor(model => project.Users.Count)</td>
+                                    <td>
+                                        <div>
+                                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                            {
+                                                <a href="@Url.Action("Details", "Projects", new { id = project.Id })" title="Details" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                                <a href="@Url.Action("Assign", "Projects", new { projectId = project.Id })" title="Assign" class="btn btn-success btn-icon"><span class="icon-plus-circle"></span></a>
+                                                <a href="@Url.Action("Edit", "Projects", new { id = project.Id })" title="Edit" class="btn btn-warning btn-icon"><span class="icon-question-circle"></span></a>
+                                                <a href="@Url.Action("Delete", "Projects", new { id = project.Id })" title="Delete" class="btn btn-danger btn-icon"><span class="icon-cross-circle"></span></a>
+                                            }
+                                            else if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                                            {
+                                                <a href="@Url.Action("Details", "Projects", new { id = project.Id })" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                        </tbody>
+                    </table>
+                    <div style="text-align:center">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+                            <a class="btn btn-primary" style="margin-top:20px;" href="@Url.Action("Create", "Projects")">New Project</a>
+                        }
+                    </div>
+                </div>
+                <!-- END INNER TABLE BLOCK -->
+            </div>
+            <!-- END OUTER TABLE BLOCK -->
+        </div>
+        <!-- END COLUMN -->
+    </div>
+    <!-- END ROW -->
+    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+    {
+        <!-- START ROW -->
+        <div class="row">
+            <!-- START COLUMN -->
+            <div class="col-md-12">
+                <!-- START OUTER TABLE BLOCK-->
+                <div class="block block-condensed">
+                    <!-- START HEADING -->
+                    <div class="app-heading app-heading-small">
+                        <div class="title">
+                            <h5>Other Projects</h5>
+                        </div>
+                    </div>
+                    <!-- END HEADING -->
+                    <!-- START INNER TABLE BLOCK -->
+
+                    <div class="block-content">
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered datatable-extended">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => Model.IrrelevantProjects.First().Title)</th>
+                                        <th>@Html.DisplayNameFor(model => model.IrrelevantProjects.First().Created)</th>
+                                        <th>@Html.DisplayNameFor(model => model.IrrelevantProjects.First().Updated)</th>
+                                        <th>@Html.DisplayNameFor(model => model.IrrelevantProjects.First().Users)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    @foreach (var project in Model.IrrelevantProjects)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(model => project.Title)</td>
+                                            <td>@Html.DisplayFor(model => project.Created.LocalDateTime)</td>
+                                            @if (project.Updated.GetValueOrDefault().LocalDateTime != new DateTimeOffset().LocalDateTime)
+                                            {
+                                                <td>@Html.DisplayFor(model => project.Updated.GetValueOrDefault().LocalDateTime)</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                            <td>@Html.DisplayFor(model => project.Users.Count)</td>
+                                            <td>
+                                                <div>
+                                                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                                    {
+                                                        <a href="@Url.Action("Details", "Projects", new { id = project.Id })" title="Details" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                                        <a href="@Url.Action("Assign", "Projects", new { projectId = project.Id })" title="Assign" class="btn btn-success btn-icon"><span class="icon-plus-circle"></span></a>
+                                                        <a href="@Url.Action("Edit", "Projects", new { id = project.Id })" title="Edit" class="btn btn-warning btn-icon"><span class="icon-question-circle"></span></a>
+                                                        <a href="@Url.Action("Delete", "Projects", new { id = project.Id })" title="Delete" class="btn btn-danger btn-icon"><span class="icon-cross-circle"></span></a>
+                                                    }
+                                                    else if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                                                    {
+                                                        <a href="@Url.Action("Details", "Projects", new { id = project.Id })" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <!-- END INNER TABLE BLOCK -->
+                </div>
+                <!-- END OUTER TABLE BLOCK -->
+            </div>
+            <!-- END COLUMN -->
+        </div>
+    <!-- END ROW -->
+    }
+
+    <!-- START ROW -->
+    <div class="row">
+        <!-- START COLUMN -->
+        <div class="col-md-12">
+            <!-- START OUTER TABLE BLOCK-->
+            <div class="block block-condensed">
+                <!-- START HEADING -->
+                <div class="app-heading app-heading-small">
+                    <div class="title">
+                        <h5>Your Tickets</h5>
+                    </div>
+                </div>
+                <!-- END HEADING -->
+
+                <!-- START INNER TABLE BLOCK -->
+
+                <div class="block-content">
+
+                    <table class="table table-striped table-bordered datatable-extended">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>@Html.DisplayNameFor(model => Model.RelevantTickets.First().Title)</th>
+                                <th>@Html.DisplayNameFor(model => model.RelevantTickets.First().Created)</th>
+                                <th>@Html.DisplayNameFor(model => model.RelevantTickets.First().Updated)</th>
+                                <th>@Html.DisplayNameFor(model => model.RelevantTickets.First().Author)</th>
+                                <th>@Html.DisplayNameFor(model => model.RelevantTickets.First().Assignee)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center;">
+                            @foreach (var ticket in Model.RelevantTickets)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(model => ticket.Project.Title)</td>
+                                    <td>@Html.DisplayFor(model => ticket.Title)</td>
+                                    <td>@Html.DisplayFor(model => ticket.Created.LocalDateTime)</td>
+                                    @if (ticket.Updated.GetValueOrDefault().LocalDateTime != new DateTimeOffset().LocalDateTime)
+                                    {
+                                        <td>@Html.DisplayFor(model => ticket.Updated.GetValueOrDefault().LocalDateTime)</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>@Html.DisplayFor(model => ticket.Author.DisplayName)</td>
+                                    @if (ticket.Assignee != null)
+                                    {
+                                        <td>@Html.DisplayFor(model => ticket.Assignee.DisplayName)</td>
+                                    }
+                                    else
+                                    {
+                                        <td><strong>Unassigned</strong></td>
+                                    }
+                                    <td>
+                                        <div>
+                                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                            {
+                                                <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })" title="Details" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                                <a href="@Url.Action("Assign", "Tickets", new { ticketId = ticket.Id })" title="Assign" class="btn btn-success btn-icon"><span class="icon-plus-circle"></span></a>
+                                                <a href="@Url.Action("Edit", "Tickets", new { id = ticket.Id })" title="Edit" class="btn btn-warning btn-icon"><span class="icon-question-circle"></span></a>
+                                                <a href="@Url.Action("Delete", "Tickets", new { id = ticket.Id })" title="Delete" class="btn btn-danger btn-icon"><span class="icon-cross-circle"></span></a>
+                                            }
+                                            else if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                                            {
+                                                <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })" title="Details" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- END INNER TABLE BLOCK -->
+            </div>
+            <!-- END OUTER TABLE BLOCK -->
+        </div>
+        <!-- END COLUMN -->
+    </div>
+    <!-- END ROW -->
+
+    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+    {
+        <!-- START ROW -->
+        <div class="row">
+            <!-- START COLUMN -->
+            <div class="col-md-12">
+                <!-- START OUTER TABLE BLOCK-->
+                <div class="block block-condensed">
+                    <!-- START HEADING -->
+                    <div class="app-heading app-heading-small">
+                        <div class="title">
+                            <h5>Other Tickets</h5>
+                        </div>
+                    </div>
+                    <!-- END HEADING -->
+                    <!-- START INNER TABLE BLOCK -->
+
+                    <div class="block-content">
+
+                        <table class="table table-striped table-bordered datatable-extended">
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>@Html.DisplayNameFor(model => Model.IrrelevantTickets.First().Title)</th>
+                                    <th>@Html.DisplayNameFor(model => model.IrrelevantTickets.First().Created)</th>
+                                    <th>@Html.DisplayNameFor(model => model.IrrelevantTickets.First().Updated)</th>
+                                    <th>@Html.DisplayNameFor(model => model.IrrelevantTickets.First().Author)</th>
+                                    <th>@Html.DisplayNameFor(model => model.IrrelevantTickets.First().Assignee)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align:center;">
+                                @foreach (var ticket in Model.IrrelevantTickets)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => ticket.Project.Title)</td>
+                                        <td>@Html.DisplayFor(model => ticket.Title)</td>
+                                        <td>@Html.DisplayFor(model => ticket.Created.LocalDateTime)</td>
+                                        @if (ticket.Updated.GetValueOrDefault().LocalDateTime != new DateTimeOffset().LocalDateTime)
+                                        {
+                                            <td>@Html.DisplayFor(model => ticket.Updated.GetValueOrDefault().LocalDateTime)</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                        <td>@Html.DisplayFor(model => ticket.Author.DisplayName)</td>
+                                        @if (ticket.Assignee != null)
+                                        {
+                                            <td>@Html.DisplayFor(model => ticket.Assignee.DisplayName)</td>
+                                        }
+                                        else
+                                        {
+                                            <td><strong>Unassigned</strong></td>
+                                        }
+                                        <td>
+                                            <div>
+                                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                                {
+                                                    <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })" title="Details" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                                    <a href="@Url.Action("Assign", "Tickets", new { ticketId = ticket.Id })" title="Assign" class="btn btn-success btn-icon"><span class="icon-plus-circle"></span></a>
+                                                    <a href="@Url.Action("Edit", "Tickets", new { id = ticket.Id })" title="Edit" class="btn btn-warning btn-icon"><span class="icon-question-circle"></span></a>
+                                                    <a href="@Url.Action("Delete", "Tickets", new { id = ticket.Id })" title="Delete" class="btn btn-danger btn-icon"><span class="icon-cross-circle"></span></a>
+                                                }
+                                                else if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                                                {
+                                                    <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })" title="Details" class="btn btn-primary btn-icon"><span class="icon-menu-circle"></span></a>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- END INNER TABLE BLOCK -->
+                </div>
+                <!-- END OUTER TABLE BLOCK -->
+            </div>
+            <!-- END COLUMN -->
+        </div>
+    <!-- END ROW -->
+    }
+</div>
+<!-- END PAGE CONTAINER -->

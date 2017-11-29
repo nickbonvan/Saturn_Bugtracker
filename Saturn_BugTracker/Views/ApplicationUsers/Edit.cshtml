@@ -1,0 +1,183 @@
+﻿@model Saturn_BugTracker.Models.ApplicationUser
+
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@{
+    MultiSelectList roles = new MultiSelectList(ViewBag.Roles);
+    MultiSelectList currentRoles = new MultiSelectList(ViewBag.CurrentRoles);
+}
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li><a href="@Url.Action("Index", "ApplicationUsers")">User Management</a></li>
+        <li class="active">User Edit</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<!-- START CONTAINER -->
+<div class="container">
+    <!-- START ROW -->
+    <div class="row">
+        <!-- START COL-->
+        <div class="col-md-8 col-md-offset-2">
+            <!-- START BLOCK -->
+            <div class="block">
+                <!-- START BLOCK CONTENT -->
+                <div class="block-content">
+                    <h1 style="text-align:center">Edit User</h1>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.PasswordHash)
+                        @Html.HiddenFor(model => model.SecurityStamp)
+
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <td>First Name</td>
+                                <td>
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Last Name</td>
+                                <td>
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Display Name</td>
+                                <td>
+                                    @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>User Name</td>
+                                <td>
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email Confirmed</td>
+                                <td>
+                                    @Html.EditorFor(model => model.EmailConfirmed)
+                                    @Html.ValidationMessageFor(model => model.EmailConfirmed, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phone Number</td>
+                                <td>
+                                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phone Number Confirmed</td>
+                                <td>
+                                    @Html.EditorFor(model => model.PhoneNumberConfirmed)
+                                    @Html.ValidationMessageFor(model => model.PhoneNumberConfirmed, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Two Factor Authentication Enabled</td>
+                                <td>
+                                    @Html.EditorFor(model => model.TwoFactorEnabled)
+                                    @Html.ValidationMessageFor(model => model.TwoFactorEnabled, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lockout End Date</td>
+                                <td>
+                                    @Html.EditorFor(model => model.LockoutEndDateUtc, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.LockoutEndDateUtc, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lockout Enabled</td>
+                                <td>
+                                    @Html.EditorFor(model => model.LockoutEnabled)
+                                    @Html.ValidationMessageFor(model => model.LockoutEnabled, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Access Failed Count</td>
+                                <td>
+                                    @Html.EditorFor(model => model.AccessFailedCount, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.AccessFailedCount, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                @if (currentRoles.Count() == ViewBag.RolesCount || ViewBag.Roles == null)
+                                {
+                                    <td>Add To Roles</td>
+                                    <td><strong>User is assigned to all roles</strong></td>
+                                }
+                                else
+                                {
+                                    <td>Add to Roles</td>
+                                    <td>@Html.ListBox("Roles", (MultiSelectList)ViewBag.Roles, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                }
+                            </tr>
+                            <tr>
+                                @if (ViewBag.CurrentRoles == null || currentRoles.Count() == 0)
+                                {
+                                    <td>Remove From Roles</td>
+                                    <td><strong>No Roles Assigned</strong></td>
+                                }
+                                else
+                                {
+                                    <td>Remove From Roles</td>
+                                    <td>@Html.ListBox("CurrentRoles", null, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                }
+                            </tr>
+                        </table>
+
+                        <div class="form-group">
+                            <div style="text-align:center">
+                                <input type="submit" value="Save" class="btn btn-success" />
+                                @Html.ActionLink("Return", "Index", null, new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- END BLOCK CONTENT -->
+            </div>
+            <!-- END BLOCK -->
+        </div>
+        <!-- END COL-->
+    </div>
+    <!-- END ROW -->
+</div>
+<!-- END CONTAINER -->

@@ -1,0 +1,113 @@
+﻿@model Saturn_BugTracker.Models.ApplicationUser
+
+<!-- START PAGE HEADING -->
+<div class="app-heading app-heading-bordered app-heading-page">
+    <div class="icon icon-lg">
+        <span class="icon-laptop-phone"></span>
+    </div>
+    <div class="title">
+        <h1>Saturn Manager</h1>
+        <p>Welcome!</p>
+    </div>
+    <!--
+    <div class="heading-elements">
+        <a href="#" class="btn btn-danger" id="page-like"><span class="app-spinner loading"></span> loading...</a>
+        <a href="https://themeforest.net/item/boooya-revolution-admin-template/17227946?ref=aqvatarius&license=regular&open_purchase_for_item_id=17227946" class="btn btn-success btn-icon-fixed"><span class="icon-text">$24</span> Purchase</a>
+    </div>
+    -->
+</div>
+<div class="app-heading-container app-heading-bordered bottom">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Application</a></li>
+        <li><a href="@Url.Action("Index", "ApplicationUsers")">User Management</a></li>
+        <li class="active">Delete User</li>
+    </ul>
+</div>
+<!-- END PAGE HEADING -->
+
+<!-- START CONTAINER -->
+<div class="container">
+    <!-- START ROW -->
+    <div class="row">
+        <!-- START COL-->
+        <div class="col-md-8 col-md-offset-2">
+            <!-- START BLOCK -->
+            <div class="block">
+                <!-- START BLOCK CONTENT -->
+                <div class="block-content">
+
+                    <h2 style="text-align:center">Delete User</h2>
+                    <hr />
+                    <hr />
+
+                    <table class="table-striped table-bordered table datatable-extended">
+                        <tbody>
+                            <tr>
+                                <td>First Name</td>
+                                <td>@Html.DisplayFor(model => model.FirstName)</td>
+                            </tr>
+                            <tr>
+                                <td>Last Name</td>
+                                <td>@Html.DisplayFor(model => model.LastName)</td>
+                            </tr>
+                            <tr>
+                                <td>Display Name</td>
+                                <td>@Html.DisplayFor(model => model.DisplayName)</td>
+                            </tr>
+                            <tr>
+                                <td>User Name</td>
+                                <td>@Html.DisplayFor(model => model.UserName)</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>@Html.DisplayFor(model => model.Email)</td>
+                            </tr>
+                            <tr>
+                                <td>Email Confirmed</td>
+                                <td>@Html.DisplayFor(model => model.EmailConfirmed)</td>
+                            </tr>
+                            <tr>
+                                <td>Phone Number</td>
+                                <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+                            </tr>
+                            <tr>
+                                <td>Phone Number Confirmed</td>
+                                <td>@Html.DisplayFor(model => model.PhoneNumberConfirmed)</td>
+                            </tr>
+                            <tr>
+                                <td>Two Factor Authentication Enabled</td>
+                                <td>@Html.DisplayFor(model => model.TwoFactorEnabled)</td>
+                            </tr>
+                            <tr>
+                                <td>Lockout End Date</td>
+                                <td>@Html.DisplayFor(model => model.LockoutEndDateUtc)</td>
+                            </tr>
+                            <tr>
+                                <td>Lockout Enabled</td>
+                                <td>@Html.DisplayFor(model => model.LockoutEnabled)</td>
+                            </tr>
+                            <tr>
+                                <td>Access Failed Count</td>
+                                <td>@Html.DisplayFor(model => model.AccessFailedCount)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div style="text-align:center">
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            @Html.ActionLink("Return", "Index", null, htmlAttributes: new { @class = "btn btn-primary" })
+                        </div>
+                    }
+                </div>
+                <!-- END BLOCK CONTENT -->
+            </div>
+            <!-- END BLOCK -->
+        </div>
+        <!-- END COL-->
+    </div>
+    <!-- END ROW -->
+</div>
+<!-- END CONTAINER -->

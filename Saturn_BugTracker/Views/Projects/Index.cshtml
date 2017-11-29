@@ -1,0 +1,191 @@
+﻿@model Saturn_BugTracker.Models.ProjectIndexViewModel
+@using Saturn_BugTracker.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+{
+    <body>
+        <p>
+            @Html.ActionLink("Create New", "Create", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+        </p>
+
+        <h4>My Projects</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Updated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Users)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.UserProjects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td>
+                        @foreach (ApplicationUser user in item.Users)
+                        {
+                            @Html.DisplayFor(u => user.DisplayName)
+                            <br />
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+                            @Html.ActionLink("Assign", "Assign", new { projectId = item.Id })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <h4>All Projects</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AllProjects.First().Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AllProjects.First().Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AllProjects.First().Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AllProjects.First().Updated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AllProjects.First().Users)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.AllProjects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td>
+                        @foreach (ApplicationUser user in item.Users)
+                        {
+                            @Html.DisplayFor(u => user.DisplayName)
+                            <br />
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+                            @Html.ActionLink("Assign", "Assign", new { projectId = item.Id })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </body>
+}
+else
+{
+    <body>
+        <h4>My Projects</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Updated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects.First().Users)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.UserProjects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td>
+                        @foreach (ApplicationUser user in item.Users)
+                        {
+                            @Html.DisplayFor(u => user.DisplayName)
+                            <br />
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+                            @Html.ActionLink("Assign", "Assign", new { projectId = item.Id })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </body>
+}
+</html>
